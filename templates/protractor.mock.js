@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var ngapimockid = require('uuid').v4(),
+    var ngapimockid = require('ng-apimock/node_modules/uuid').v4(),
         request = require('then-request'),
         baseUrl = require('url-join')(browser.baseUrl, 'ngapimock');
 
