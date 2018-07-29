@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const ngApimock = require('ng-apimock')();
+const ngApimock = require('ng-apimock-webdriverio')();
 const app = express();
 
 /**
@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 });
 
 // process the api calls through ng-apimock
-app.use(require('ng-apimock/lib/utils').ngApimockRequest);
+app.use(require('ng-apimock-webdriverio/lib/utils').ngApimockRequest);
 // serve the mocking interface for local development
 app.use('/mocking', express.static('.tmp/ngApimock'));
 
