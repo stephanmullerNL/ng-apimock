@@ -7,6 +7,7 @@
 
         const fs = require('fs-extra');
         const path = require('path');
+        const q = require('q');
         const mockingPo = new (require('./../po/mocking.po'))();
         const mocksDirectory = path.join(process.cwd(), 'test', 'mocks', 'api');
         const responses = {
@@ -32,7 +33,7 @@
         Given(/^I open the mocking interface$/, () => browser.get('/mocking'));
 
         Then(/^the following scenario's should be selected:$/, (table) =>
-            protractor.promise.all(table.hashes().map((row) => {
+            q.all(table.hashes().map((row) => {
                 const actual = mockingPo.mock(row.name).scenario.$$(('option[selected="selected"]')).first().getText();
                 const expected = row.scenario;
                 return expect(actual).to.eventually.equal(expected);

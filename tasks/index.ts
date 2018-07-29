@@ -4,7 +4,7 @@ import * as fs from 'fs-extra';
 import Mock from './mock';
 import Configuration from './configuration';
 import Processor from './processor';
-import Preset from "./preset";
+import Preset from './preset';
 
 (module).exports = function () {
     'use strict';
@@ -71,9 +71,9 @@ import Preset from "./preset";
                     processor.generateMockingInterface(config.destination);
                     callback(null, 'generated mocking interface');
                 },
-                generateProtractorMock: (callback: Function) => {
-                    console.info('Generate protractor.mock.js');
-                    processor.generateProtractorMock(config.destination);
+                generateWdioMock: (callback: Function) => {
+                    console.info('Generate wdio.mock.js');
+                    processor.generateWdioMock(config.destination);
                     callback(null, 200);
                 }
             },

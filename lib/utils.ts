@@ -3,16 +3,16 @@ import Preset from '../tasks/preset';
 import * as http from 'http';
 import {httpMethods} from './http';
 import GetPresetsHandler from './api/presets/getPresetsHandler';
-import ProtractorAddOrUpdateVariableHandler from './api/variables/protractor/addOrUpdateVariableHandler';
-import ProtractorApplyPresetHandler from './api/presets/protractor/applyPresetHandler';
-import ProtractorDeleteVariableHandler from './api/variables/protractor/deleteVariableHandler';
-import ProtractorGetMocksHandler from './api/mocks/protractor/getMocksHandler';
-import ProtractorGetVariablesHandler from './api/variables/protractor/getVariablesHandler';
-import ProtractorNgApimockHandler from './protractor/ngApimockHandler';
-import ProtractorRecordResponseHandler from './api/mocks/protractor/recordResponseHandler';
-import ProtractorResetMocksToDefaultsHandler from './api/mocks/protractor/resetMocksToDefaultsHandler';
-import ProtractorSetMocksToPassThroughsHandler from './api/mocks/protractor/setMocksToPassThroughsHandler';
-import ProtractorUpdateMockHandler from './api/mocks/protractor/updateMockHandler';
+import WdioAddOrUpdateVariableHandler from './api/variables/wdio/addOrUpdateVariableHandler';
+import WdioApplyPresetHandler from './api/presets/wdio/applyPresetHandler';
+import WdioDeleteVariableHandler from './api/variables/wdio/deleteVariableHandler';
+import WdioGetMocksHandler from './api/mocks/wdio/getMocksHandler';
+import WdioGetVariablesHandler from './api/variables/wdio/getVariablesHandler';
+import WdioNgApimockHandler from './wdio/ngApimockHandler';
+import WdioRecordResponseHandler from './api/mocks/wdio/recordResponseHandler';
+import WdioResetMocksToDefaultsHandler from './api/mocks/wdio/resetMocksToDefaultsHandler';
+import WdioSetMocksToPassThroughsHandler from './api/mocks/wdio/setMocksToPassThroughsHandler';
+import WdioUpdateMockHandler from './api/mocks/wdio/updateMockHandler';
 import Registry from './registry';
 import RuntimeAddOrUpdateVariableHandler from './api/variables/runtime/addOrUpdateVariableHandler';
 import RuntimeApplyPresetHandler from './api/presets/runtime/applyPresetHandler';
@@ -40,18 +40,18 @@ import GET = httpMethods.GET;
 
     const registry: Registry = new Registry(),
         handlers = {
-            protractor: {
-                updateMockHandler: new ProtractorUpdateMockHandler(),
-                getMocksHandler: new ProtractorGetMocksHandler(),
-                resetMocksToDefaultsHandler: new ProtractorResetMocksToDefaultsHandler(),
-                setMocksToPassThroughsHandler: new ProtractorSetMocksToPassThroughsHandler(),
-                recordResponseHandler: new ProtractorRecordResponseHandler(),
+            wdio: {
+                updateMockHandler: new WdioUpdateMockHandler(),
+                getMocksHandler: new WdioGetMocksHandler(),
+                resetMocksToDefaultsHandler: new WdioResetMocksToDefaultsHandler(),
+                setMocksToPassThroughsHandler: new WdioSetMocksToPassThroughsHandler(),
+                recordResponseHandler: new WdioRecordResponseHandler(),
                 getPresetsHandler: new GetPresetsHandler(),
-                applyPresetHandler: new ProtractorApplyPresetHandler(),
-                addOrUpdateVariableHandler: new ProtractorAddOrUpdateVariableHandler(),
-                getVariablesHandler: new ProtractorGetVariablesHandler(),
-                deleteVariableHandler: new ProtractorDeleteVariableHandler(),
-                ngApimockHandler: new ProtractorNgApimockHandler()
+                applyPresetHandler: new WdioApplyPresetHandler(),
+                addOrUpdateVariableHandler: new WdioAddOrUpdateVariableHandler(),
+                getVariablesHandler: new WdioGetVariablesHandler(),
+                deleteVariableHandler: new WdioDeleteVariableHandler(),
+                ngApimockHandler: new WdioNgApimockHandler()
             },
             runtime: {
                 updateMockHandler: new RuntimeUpdateMockHandler(),
@@ -76,7 +76,7 @@ import GET = httpMethods.GET;
      */
     function ngApimockRequest(request: http.IncomingMessage, response: http.ServerResponse, next: Function): void {
         const ngapimockId = _ngApimockId(request.headers),
-            type = ngapimockId !== undefined ? 'protractor' : 'runtime';
+            type = ngapimockId !== undefined ? 'wdio' : 'runtime';
 
         if (request.url === '/ngapimock/mocks/record' && request.method === PUT) {
             handlers[type].recordResponseHandler.handleRequest(request, response, next, registry, ngapimockId);

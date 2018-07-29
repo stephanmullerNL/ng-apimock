@@ -4,10 +4,12 @@
     const path = require('path');
     const ngapimockid = _require('uuid').v4();
     const request = _require('then-request');
-    const baseUrl = _require('url-join')(browser.baseUrl, 'ngapimock');
+    const q = _require('q');
+    const wdioConfig = _require(path.join(process.cwd(), 'wdio.conf.js'));
+    const baseUrl = _require('url-join')(wdioConfig.config.baseUrl, 'ngapimock');
 
     let _handleRequest = function (httpMethod, urlSuffix, opts, errorMessage) {
-        const deferred = protractor.promise.defer();
+        const deferred = q.defer();
         request(httpMethod, baseUrl + urlSuffix, opts).done((res) => {
             if (res.statusCode !== 200) {
                 deferred.reject(errorMessage);
@@ -18,60 +20,11 @@
         return deferred.promise;
     };
 
-    const ProtractorMock = function () {
-        function NgApimockHeader($http, ngApimockInstance) {
-            $http.defaults.headers.common['ngapimockid'] = ngApimockInstance.ngapimockid;
-        }
-
-        NgApimockHeader.$inject = ['$http', 'ngApimockInstance'];
-
-        angular.module('ngApimock', []);
-        angular.module('ngApimock').constant('ngApimockInstance', arguments[0]);
-        angular.module('ngApimock').run(NgApimockHeader)
-    };
-
-    /** Make sure that angular uses the ngapimock identifier for the requests. */
-    browser.getProcessedConfig().then((config) => {
-        // As of protractor 5.0.0 the flag config.useAllAngular2AppRoots has been deprecated, to let protractor tell
-        // ngApimock that Angular 2 is used a custom object needs to be provided with the angular version in it
-        // See: https://github.com/angular/protractor/blob/master/CHANGELOG.md#features-2
-        if (config.useAllAngular2AppRoots || ('ngApimockOpts' in config && config.ngApimockOpts.angularVersion > 1)) {
-            // angular 2 does not have addMockModule support @see https://github.com/angular/protractor/issues/3092
-            // fallback to cookie
-            require('hooker').hook(browser, 'get', {
-                post: function (result) {
-                    return result.then(function () {
-                        // Since protractor 5.0.0 the addCookie is an object, see
-                        // https://github.com/angular/protractor/blob/master/CHANGELOG.md#500
-                        try {
-                            return browser.manage().addCookie({name: "ngapimockid", value: ngapimockid});
-                        } catch (error) {
-                            // Fallback protractor < 5.0.0
-                            return browser.manage().addCookie('ngapimockid', ngapimockid);
-                        }
-                    });
-                }
-            });
-
-            // Angular 2+ lacks addMockModule, but hybrid apps still need this
-            if(!!config.ngApimockOpts.hybrid) {
-                browser.addMockModule('ngApimock', ProtractorMock, {ngapimockid: ngapimockid});
-            }
-        } else {
-            browser.addMockModule('ngApimock', ProtractorMock, {'ngapimockid': ngapimockid})
-        }
-
-        if (config.SELENIUM_PROMISE_MANAGER === false) {
-            _handleRequest = function (httpMethod, urlSuffix, opts, errorMessage) {
-                return new Promise((resolve, reject) => {
-                    request(httpMethod, baseUrl + urlSuffix, opts).done((res) => {
-                        return res.statusCode === 200 ? resolve() : reject(errorMessage);
-                    });
-                });
-            }
+    require('hooker').hook(browser, 'url', {
+        post: function () {
+          return browser.setCookie({ name: "ngapimockid", value: ngapimockid });
         }
     });
-
 
     /**
      * Selects the given scenario for the mock matching the identifier.
@@ -271,7 +224,7 @@
         return result;
     }
 
-    /** This Protractor mock allows you to specify which scenario from your json api files you would like to use for your tests. */
+    /** This WebdriverIO mock allows you to specify which scenario from your json api files you would like to use for your tests. */
     module.exports = {
         selectScenario: selectScenario,
         delayResponse: delayResponse,

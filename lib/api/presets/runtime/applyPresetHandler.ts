@@ -4,7 +4,7 @@ import Registry from '../../../registry';
 import RuntimeUpdateMockHandler from '../../mocks/runtime/updateMockHandler';
 import RuntimeResetMocksToDefaultsHandler from '../../mocks/runtime/resetMocksToDefaultsHandler';
 
-/** Handler that takes care of updating the mock configuration for protractor. */
+/** Handler that takes care of updating the mock configuration for wdio. */
 class RuntimeApplyPresetHandler extends ApplyPresetHandler {
 
     private resetDefaultsHandler = new RuntimeResetMocksToDefaultsHandler();

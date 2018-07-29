@@ -2,7 +2,7 @@ import * as glob from 'glob';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import Mock from './mock';
-import Preset from "./preset";
+import Preset from './preset';
 
 /** Registry represents a group of phases grouped under one name. */
 class Processor {
@@ -43,11 +43,11 @@ class Processor {
     }
 
     /**
-     * Generates the protractor.mock.js file in the given output directory.
+     * Generates the wdio.mock.js file in the given output directory.
      * @param {string} directory The output directory
      */
-    generateProtractorMock(directory: string): void {
-        fs.copySync(path.join(Processor.PTD, 'protractor.mock.js'), path.join(directory, 'protractor.mock.js'));
+    generateWdioMock(directory: string): void {
+        fs.copySync(path.join(Processor.PTD, 'wdio.mock.js'), path.join(directory, 'wdio.mock.js'));
     }
 
     /**

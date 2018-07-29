@@ -69,11 +69,13 @@
             } catch (e) {
                 fail();
             } finally {
-                expect(log.ok.length).toBe(4);
+                expect(log.ok.length).toBe(6);
                 expect(log.ok[0]).toBe('Process all the mocks');
                 expect(log.ok[1]).toBe('Register mocks');
-                expect(log.ok[2]).toBe('Generate the mocking web interface');
-                expect(log.ok[3]).toBe('Generate protractor.mock.js');
+                expect(log.ok[2]).toBe('Process all the presets');
+                expect(log.ok[3]).toBe('Register presets');
+                expect(log.ok[4]).toBe('Generate the mocking web interface');
+                expect(log.ok[5]).toBe('Generate wdio.mock.js');
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'index.html')).toBeTruthy();
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'js' + path.sep + 'angular.min.js')).toBeTruthy();
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'js' + path.sep + 'angular-resource.min.js')).toBeTruthy();
@@ -83,7 +85,7 @@
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'js' + path.sep + 'mocks.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'js' + path.sep + 'variables.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'css' + path.sep + 'main.css')).toBeTruthy();
-                expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'protractor.mock.js')).toBeTruthy();
+                expect(fsExtra.existsSync(SOME_OTHER_DIR + path.sep + 'wdio.mock.js')).toBeTruthy();
                 expect(done).toHaveBeenCalled();
             }
         });
@@ -96,11 +98,13 @@
             } catch (e) {
                 fail();
             } finally {
-                expect(log.ok.length).toBe(4);
+                expect(log.ok.length).toBe(6);
                 expect(log.ok[0]).toBe('Process all the mocks');
                 expect(log.ok[1]).toBe('Register mocks');
-                expect(log.ok[2]).toBe('Generate the mocking web interface');
-                expect(log.ok[3]).toBe('Generate protractor.mock.js');
+                expect(log.ok[2]).toBe('Process all the presets');
+                expect(log.ok[3]).toBe('Register presets');
+                expect(log.ok[4]).toBe('Generate the mocking web interface');
+                expect(log.ok[5]).toBe('Generate wdio.mock.js');
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'index.html')).toBeTruthy();
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'js' + path.sep + 'angular.min.js')).toBeTruthy();
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'js' + path.sep + 'angular-resource.min.js')).toBeTruthy();
@@ -110,7 +114,7 @@
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'js' + path.sep + 'mocks.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'js' + path.sep + 'variables.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'css' + path.sep + 'main.css')).toBeTruthy();
-                expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'protractor.mock.js')).toBeTruthy();
+                expect(fsExtra.existsSync(DEFAULT_OUTPUT_DIR + path.sep + 'wdio.mock.js')).toBeTruthy();
             }
         });
 

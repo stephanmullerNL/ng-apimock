@@ -1,7 +1,7 @@
 import Registry from '../registry';
 
 module helper {
-    export module protractor {
+    export module wdio {
         /**
          * Adds a session to the registry for the given ngApimockId if there isn't any.
          * @param registry The registry.

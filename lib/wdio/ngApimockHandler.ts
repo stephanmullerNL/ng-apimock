@@ -2,17 +2,17 @@ import helper from '../api/helper';
 import Registry from '../registry';
 import NgApimockHandler from '../ngApimockHandler';
 
-/** Handler for a request for protractor. */
-class ProtractorNgApimockHandler extends NgApimockHandler {
+/** Handler for a request for wdio. */
+class WdioNgApimockHandler extends NgApimockHandler {
     /** @inheritDoc */
     getSelection(registry: Registry, identifier: string, ngApimockId: string): string {
-        helper.protractor.addSessionIfNonExisting(registry, ngApimockId);
+        helper.wdio.addSessionIfNonExisting(registry, ngApimockId);
         return registry.sessions[ngApimockId].selections[identifier];
     }
 
     /** @inheritDoc */
     getVariables(registry: Registry, ngApimockId?: string): {} {
-        helper.protractor.addSessionIfNonExisting(registry, ngApimockId);
+        helper.wdio.addSessionIfNonExisting(registry, ngApimockId);
         return registry.sessions[ngApimockId].variables;
     }
 
@@ -27,4 +27,4 @@ class ProtractorNgApimockHandler extends NgApimockHandler {
     }
 }
 
-export default ProtractorNgApimockHandler;
+export default WdioNgApimockHandler;
